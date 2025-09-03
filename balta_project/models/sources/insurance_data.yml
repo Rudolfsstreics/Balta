@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw
+    description: 'Raw data tables'
+    database: balta_bronze  
+    schema: dbo  
+    tables:
+      - name: claims
+      - name: customers
+      - name: offers
+      - name: policies
