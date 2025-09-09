@@ -14,7 +14,7 @@ with source_data as (
       ,[segment]
       ,[created_at]
       ,[country]
-    from {{ source('raw','customers') }}
+    from {{ source('insurance_raw','customers') }}
 
 )
 

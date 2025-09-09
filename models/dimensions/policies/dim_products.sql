@@ -9,4 +9,4 @@ SELECT distinct CONCAT_WS('/',P.[product_code]
       ,P.[product_code]
       ,P.[product_variant]
       ,P.[policy_version]
-  FROM  {{ ref('insurance_data_policies') }} as P
+  FROM  {{ ref('policies_raw') }} as P

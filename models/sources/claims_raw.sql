@@ -9,7 +9,7 @@ with source_data as (
     ,[policy_id]
     ,[claim_date]
     ,[claim_amount]
-    from {{ source('raw','claims') }}
+    from {{ source('insurance_raw','claims') }}
 
 )
 

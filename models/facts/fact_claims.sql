@@ -20,6 +20,6 @@ SELECT
         ,P.[currency] AS currency_code
 --      ,P.[sales_channel]
 --      ,P.[policy_version]
-  FROM  {{ ref('insurance_data_claims') }} [claims] as C
-  JOIN  {{ ref('insurance_data_policies') }} [policies] as P
+  FROM  {{ ref('claims_raw') }} [claims] as C
+  JOIN  {{ ref('policies_raw') }} [policies] as P
   ON C.policy_id = P.policy_id

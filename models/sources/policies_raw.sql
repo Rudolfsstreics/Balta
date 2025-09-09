@@ -17,7 +17,7 @@ with source_data as (
       ,[currency]
       ,[sales_channel]
       ,[policy_version]
-    from {{ source('raw','policies') }}
+    from {{ source('insurance_raw','policies') }}
 
 )
 

@@ -6,4 +6,4 @@ Prasītu ģenerēt jaunu ID lokācijai
 {{ config(materialized='table') }}
 
 SELECT distinct C.[segment]
-  FROM  {{ ref('insurance_data_customers') }}  as C
+  FROM  {{ ref('customers_raw') }}  as C

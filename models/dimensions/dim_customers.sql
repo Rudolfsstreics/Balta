@@ -13,5 +13,5 @@ SELECT C.[customer_id]
       ,C.[segment]
       ,C.[created_at]
       ,C.[country]
-  FROM  {{ ref('insurance_data_customers') }} as C
+  FROM  {{ ref('customers_raw') }} as C
 

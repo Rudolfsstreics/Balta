@@ -14,7 +14,7 @@ with source_data as (
       ,[sales_source]
       ,[sum_insured]
       ,[coverage_hash]
-    from {{ source('raw','offers') }}
+    from {{ source('insurance_raw','offers') }}
 
 )
 
