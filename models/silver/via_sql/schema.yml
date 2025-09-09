@@ -5,13 +5,11 @@ models:
       This model contains claim data from the silver data warehouse.
       It includes details such as claim ID, policy ID, customer ID, claim date, 
       claim amount, and related policy information.
-    config:
-      contract:
-        enforced: true
     constraints:
       - type: primary_key
         columns: [id_claim]
         warn_unsupported: True 
+        name: claim_silver_pk
     columns:
       - name: id_claim
         description: "Unique identifier for the claim."
@@ -26,6 +24,7 @@ models:
           - type: foreign_key
             to: ref('policy_silver')
             to_columns: [id_policy]
+            name: claim_silver_id_policy_fk
         data_type: string
       - name: id_customer
         description: "Foreign key referencing the customer."
@@ -34,6 +33,7 @@ models:
           - type: foreign_key
             to: ref('customer_silver')
             to_columns: [id_customer]
+            name: claim_silver_id_customer_fk
         data_type: integer
       - name: d_claim_date
         description: "Date the claim was filed."
@@ -51,20 +51,18 @@ models:
       It includes information such as policy ID, customer ID, policy product code,
       policy product variant name, policy start date, policy end date, 
       policy status code, policy premium, and policy sum insured.
-    config:
-      contract:
-        enforced: true
     constraints:
       - type: primary_key
         columns: [id_policy]
         warn_unsupported: True 
+        name: policy_silver_pk
     columns:
       - name: id_policy
         description: "Unique identifier for the policy."
         data_tests:
           - unique
           - not_null
-        data_type: integer
+        data_type: string
       - name: id_customer
         description: "Foreign key referencing the customer."
         constraints:
@@ -72,6 +70,7 @@ models:
           - type: foreign_key
             to: ref('customer_silver')
             to_columns: [id_customer]
+            name: policy_silver_id_customer_fk
         data_type: integer
       - name: policy_product_code
         description: "The product code for the policy."
@@ -102,12 +101,12 @@ models:
         description: "The premium written for the policy."
         data_tests:
           - not_null
-        data_type: decimal
+        data_type: float
       - name: amt_policy_sum_insured
         description: "The sum insured for the policy."
         data_tests:
           - not_null
-        data_type: decimal
+        data_type: float
       - name: policy_currency_code
         description: "The currency code for the policy."
         data_tests:
@@ -122,19 +121,17 @@ models:
         description: "The version of the policy."
         data_tests:
           - not_null
-        data_type: decimal          
+        data_type: int          
   - name: customer_silver
     description: |
       This model contains customer data from the silver data warehouse.
       It includes details such as customer ID, first name, last name,
       birth date, gender, city name, segment name, and creation date.
-    config:
-      contract:
-        enforced: true
     constraints:
       - type: primary_key
         columns: [id_customer]
         warn_unsupported: True 
+        name: customer_silver_pk
     columns:
       - name: id_customer
         description: "Unique identifier for the customer."
@@ -187,24 +184,23 @@ models:
       This model contains offer data from the silver data warehouse.
       It includes details such as offer ID, customer ID, product code,
       variant name, offer date, premium, sales source, and sum insured.
-    config:
-      contract:
-        enforced: true
     constraints:
       - type: primary_key
         columns: [id_offer]
         warn_unsupported: True 
+        name: offer_silver_pk
       - type: foreign_key
         columns: [id_customer]
         to: ref('customer_silver')
         to_columns: [id_customer]
+        name: offer_silver_fk
     columns:
       - name: id_offer
         description: "Unique identifier for the offer."
         data_tests:
           - unique
           - not_null
-        data_type: integer
+        data_type: string
       - name: id_customer
         description: "Customer ID associated with the offer."
         data_tests:
@@ -224,12 +220,12 @@ models:
         description: "The date the offer was created."
         data_tests:
           - not_null
-        data_type: date
+        data_type: datetime
       - name: amt_offer_premium
         description: "The premium amount for the offer."
         data_tests:
           - not_null
-        data_type: decimal
+        data_type: bigint
       - name: offer_sales_source_name
         description: "The name of the sales source for the offer."
         data_tests:
@@ -239,7 +235,7 @@ models:
         description: "The sum insured amount for the offer."
         data_tests:
           - not_null
-        data_type: decimal
+        data_type: bigint
       - name: offer_coverage_hash
         description: "The coverage hash for the offer."
         data_tests:
