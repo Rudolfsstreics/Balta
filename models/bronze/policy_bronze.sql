@@ -1,8 +1,3 @@
-/*
-*/
-
-{{ config(materialized='view') }}
-
 with source_data as (
     select 
        [policy_id] AS id_policy
