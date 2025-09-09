@@ -9,7 +9,7 @@ WITH date_validated_duplicates_numbered as (
     ,amt_claim_amount
     FROM  {{ ref('claim_bronze') }} AS cm
     LEFT JOIN {{ ref('policy_bronze') }} AS pl ON cm.id_policy = pl.id_policy
-    WHERE d_claim_date>=d_policy_start_date and d_claim_date>=d_policy_end_date
+    WHERE d_claim_date>=d_policy_start_date and d_claim_date<=d_policy_end_date
     )
 SELECT 
 id_claim
