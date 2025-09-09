@@ -1,0 +1,217 @@
+version: 2.0
+models:
+  - name: claim_silver
+    description: |
+      This model contains claim data from the silver data warehouse.
+      It includes details such as claim ID, policy ID, customer ID, claim date, 
+      claim amount, and related policy information.
+    config:
+      contract:
+        enforced: true
+
+    constraints:
+      - type: primary_key
+        columns: [id_claim]
+        warn_unsupported: True 
+      - type: foreign_key
+        columns: [id_policy, id_customer]
+        to: ref('policy_silver') | ref('customer_silver')
+        to_columns: [id_policy, id_customer]
+
+
+    columns:
+      - name: id_claim
+        description: "Unique identifier for the claim."
+        data_tests:
+          - unique
+          - not_null
+      - name: id_policy
+        description: "Foreign key referencing the policy."
+        data_tests:
+          - not_null
+      - name: id_customer
+        description: "Foreign key referencing the customer."
+        data_tests:
+          - not_null
+      - name: d_claim_date
+        description: "Date the claim was filed."
+        data_tests:
+          - not_null
+      - name: amt_claim_amount
+        description: "The amount of the claim."
+        data_tests:
+          - not_null
+  - name: policy_silver
+    description: |
+      This model contains policy data from the silver data warehouse.
+      It includes information such as policy ID, customer ID, policy product code,
+      policy product variant name, policy start date, policy end date, 
+      policy status code, policy premium, and policy sum insured.
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns: [id_policy]
+        warn_unsupported: True 
+      - type: foreign_key
+        columns: [id_customer]
+        to: ref('claim_silver')
+        to_columns: [ id_customer]
+    columns:
+      - name: id_policy
+        description: "Unique identifier for the policy."
+        data_tests:
+          - unique
+          - not_null
+      - name: id_customer
+        description: "Foreign key referencing the customer."
+        data_tests:
+          - not_null
+      - name: policy_product_code
+        description: "The product code for the policy."
+        data_tests:
+          - not_null
+      - name: policy_product_variant_name
+        description: "The name of the policy product variant."
+        data_tests:
+          - not_null
+      - name: d_policy_start_date
+        description: "The date the policy started."
+        data_tests:
+          - not_null
+      - name: d_policy_end_date
+        description: "The date the policy ended."
+        data_tests:
+          - not_null
+      - name: policy_status_code
+        description: "Status code for the policy."
+        data_tests:
+          - not_null
+      - name: amt_policy_written_premium
+        description: "The premium written for the policy."
+        data_tests:
+          - not_null
+      - name: amt_policy_sum_insured
+        description: "The sum insured for the policy."
+        data_tests:
+          - not_null
+      - name: policy_currency_code
+        description: "The currency code for the policy."
+        data_tests:
+          - not_null
+      - name: policy_sales_channel_code
+        description: "The sales channel for the policy."
+        data_tests:
+          - not_null
+      - name: policy_version
+        description: "The version of the policy."
+        data_tests:
+          - not_null
+
+  - name: customer_silver
+    description: |
+      This model contains customer data from the silver data warehouse.
+      It includes details such as customer ID, first name, last name,
+      birth date, gender, city name, segment name, and creation date.
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns: [id_customer]
+        warn_unsupported: True 
+    columns:
+      - name: id_customer
+        description: "Unique identifier for the customer."
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_first_name
+        description: "The first name of the customer."
+        data_tests:
+          - not_null
+      - name: customer_last_name
+        description: "The last name of the customer."
+        data_tests:
+          - not_null
+      - name: d_customer_birth_date
+        description: "The date the customer was born."
+        data_tests:
+          - not_null
+      - name: d_customer_created_at
+        description: "The date the customer was created."
+        data_tests:
+          - not_null
+      - name: customer_gender
+        description: "The gender of the customer."
+        data_tests:
+          - not_null
+      - name: customer_city_name
+        description: "The name of the customer's city."
+        data_tests:
+          - not_null
+      - name: customer_segment_name
+        description: "The customer segment name."
+        data_tests:
+          - not_null
+      - name: customer_country_code
+        description: "The country code of the customer."
+        data_tests:
+          - not_null
+
+  - name: offer_silver
+    description: |
+      This model contains offer data from the silver data warehouse.
+      It includes details such as offer ID, customer ID, product code,
+      variant name, offer date, premium, sales source, and sum insured.
+    config:
+      contract:
+        enforced: true
+
+    constraints:
+      - type: primary_key
+        columns: [id_offer]
+        warn_unsupported: True 
+      - type: foreign_key
+        columns: [id_customer]
+        to: ref('customer_silver')
+        to_columns: [id_customer]
+    columns:
+      - name: id_offer
+        description: "Unique identifier for the offer."
+        data_tests:
+          - unique
+          - not_null
+      - name: id_customer
+        description: "Customer ID associated with the offer."
+        data_tests:
+          - not_null
+      - name: offer_product_code
+        description: "The product code for the offer."
+        data_tests:
+          - not_null
+      - name: offer_product_variant_name
+        description: "The name of the offer product variant."
+        data_tests:
+          - not_null
+      - name: dt_offer_date
+        description: "The date the offer was created."
+        data_tests:
+          - not_null
+      - name: amt_offer_premium
+        description: "The premium amount for the offer."
+        data_tests:
+          - not_null
+      - name: offer_sales_source_name
+        description: "The name of the sales source for the offer."
+        data_tests:
+          - not_null
+      - name: amt_offer_sum_insured
+        description: "The sum insured amount for the offer."
+        data_tests:
+          - not_null
+      - name: offer_coverage_hash
+        description: "The coverage hash for the offer."
+        data_tests:
+          - not_null
