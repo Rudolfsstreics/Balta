@@ -8,17 +8,10 @@ models:
     config:
       contract:
         enforced: true
-
     constraints:
       - type: primary_key
         columns: [id_claim]
         warn_unsupported: True 
-      - type: foreign_key
-        columns: [id_policy, id_customer]
-        to: ref('policy_silver') | ref('customer_silver')
-        to_columns: [id_policy, id_customer]
-
-
     columns:
       - name: id_claim
         description: "Unique identifier for the claim."
@@ -27,12 +20,18 @@ models:
           - not_null
       - name: id_policy
         description: "Foreign key referencing the policy."
-        data_tests:
-          - not_null
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('policy_silver')
+            to_columns: [id_policy]
       - name: id_customer
         description: "Foreign key referencing the customer."
-        data_tests:
-          - not_null
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('customer_silver')
+            to_columns: [id_customer]
       - name: d_claim_date
         description: "Date the claim was filed."
         data_tests:
@@ -54,10 +53,6 @@ models:
       - type: primary_key
         columns: [id_policy]
         warn_unsupported: True 
-      - type: foreign_key
-        columns: [id_customer]
-        to: ref('claim_silver')
-        to_columns: [ id_customer]
     columns:
       - name: id_policy
         description: "Unique identifier for the policy."
@@ -66,8 +61,11 @@ models:
           - not_null
       - name: id_customer
         description: "Foreign key referencing the customer."
-        data_tests:
-          - not_null
+        constraints:
+          - type: not_null
+          - type: foreign_key
+            to: ref('customer_silver')
+            to_columns: [id_customer]
       - name: policy_product_code
         description: "The product code for the policy."
         data_tests:
@@ -108,7 +106,7 @@ models:
         description: "The version of the policy."
         data_tests:
           - not_null
-
+          
   - name: customer_silver
     description: |
       This model contains customer data from the silver data warehouse.
@@ -168,7 +166,6 @@ models:
     config:
       contract:
         enforced: true
-
     constraints:
       - type: primary_key
         columns: [id_offer]
