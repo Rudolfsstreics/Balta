@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: insurance_raw
+    description: 'Raw insurance data tables'
+    database: SQLPOOL1
+    schema: bronze
+    tables:
+      - name: claims
+        description: Insurance claims made by customers
+      - name: customers
+        description: Paying clients of the insurance company (not nesecerly the insured persons)
+      - name: offers
+        description: Offers made to customers
+      - name: policies
+        description:  Insurance policies owned by customers
