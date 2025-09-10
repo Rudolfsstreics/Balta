@@ -6,6 +6,7 @@ SELECT
 C.id_claim
 ,C.id_customer
 ,C.id_policy
+,{{ dbt_utils.generate_surrogate_key(['policy_product_code','policy_product_variant_name','policy_version']) }} AS id_product
 ,C.d_claim_date
 ,C.amt_claim_amount
 ,P.amt_policy_written_premium
