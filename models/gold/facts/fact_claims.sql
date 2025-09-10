@@ -2,24 +2,18 @@
 
 */
 
-{{ config(materialized='table') }}
-
 SELECT 
-  SELECT C.[claim_id] AS id_insurance_data_claims
-        ,P.[customer_id]  AS id_insurance_data_customers 
-        ,P.[policy_id] AS id_insurance_data_policies
-        ,C.[claim_date] AS d_claim_date
-        ,C.[claim_amount] AS amt_claim_amount
---      ,P.[product_code]
---      ,P.[product_variant]
---      ,P.[start_date]
---      ,P.[end_date]
---      ,P.[policy_status]
-        ,P.[written_premium] AS amt_written_premium
-        ,P.[sum_insured] AS amt_sum_insured
-        ,P.[currency] AS currency_code
---      ,P.[sales_channel]
---      ,P.[policy_version]
-  FROM  {{ ref('claims_raw') }} [claims] as C
-  JOIN  {{ ref('policies_raw') }} [policies] as P
-  ON C.policy_id = P.policy_id
+C.id_claim
+,C.id_customer
+,C.id_policy
+,C.d_claim_date
+,C.amt_claim_amount
+,P.amt_policy_written_premium
+,P.amt_policy_sum_insured
+,P.policy_currency_code
+FROM  {{ ref('claim_silver') }} as C
+JOIN  {{ ref('policy_silver') }} as P
+ON C.id_policy = P.id_policy
+
+
+

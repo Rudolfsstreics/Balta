@@ -56,4 +56,4 @@ models:
     gold:
       +materialized: table
       +schema: gold
-      +enabled: false
+      +enabled: true
