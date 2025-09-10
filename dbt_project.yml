@@ -57,3 +57,6 @@ models:
       +materialized: table
       +schema: gold
       +enabled: true
+      business_analysis:
+        offer:
+          +enabled: false
